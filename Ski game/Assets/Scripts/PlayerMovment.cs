@@ -14,11 +14,17 @@ public class PlayerMovment : MonoBehaviour
     [SerializeField] private float disableTime = 0.7f;
     private float LastDisableTime;
     private Rigidbody rb;
+    
+    public static Transform playerPos;
+
+    private Animator anim;
 
     private void Awake()
     {
         move = InputSystem.actions.FindAction("Player/Move");
         rb = GetComponent<Rigidbody>();
+        anim = GetComponent<Animator>();
+        playerPos = transform;
     }
 
     private void OnEnable()
@@ -52,6 +58,10 @@ public class PlayerMovment : MonoBehaviour
                     
             //Debug.Log("move x: " + moveVector.x + " y: " + moveVector.y);
         }
+        
+        anim.SetBool("grounded", isGround);
+        anim.SetFloat("playerSpeed", rb.linearVelocity.magnitude);
+        Debug.Log("speed: " + rb.linearVelocity.magnitude);
         
     }
 }
